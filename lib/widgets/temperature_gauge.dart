@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class TemperatureGauge extends StatelessWidget {
-  final double temperature;
+class TemperatureGauge extends StatefulWidget {
+  const TemperatureGauge({
+    Key? key,
+    this.temperature = 27,
+    this.radius = 100,
+    this.isFahrenheit = false,
+    this.percent = 0.0,
+  }) : super(key: key);
+
+  final int temperature;
   final double radius;
   final bool isFahrenheit;
   final double percent;
 
-  const TemperatureGauge({
-    Key? key,
-    this.temperature = 27,
-    this.radius = 125,
-    this.isFahrenheit = false,
-    this.percent = 0.8,
-  }) : super(key: key);
+  @override
+  State<TemperatureGauge> createState() => _TemperatureGaugeWidget();
+}
 
+class _TemperatureGaugeWidget extends State<TemperatureGauge> {
   @override
   Widget build(BuildContext context) {
-    var size = radius * 2;
+    var size = widget.radius * 2;
     return Container(
       width: size,
       height: size,
@@ -34,8 +39,9 @@ class TemperatureGauge extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: CircularPercentIndicator(
-        percent: percent - .223,
-        radius: radius,
+        animateFromLastPercent: true,
+        percent: widget.percent,
+        radius: widget.radius,
         lineWidth: 18,
         animation: true,
         backgroundColor: const Color(0x00F1F4F8),
@@ -50,7 +56,7 @@ class TemperatureGauge extends StatelessWidget {
             Align(
               alignment: const AlignmentDirectional(-.1, 0),
               child: Text(
-                temperature.toString(),
+                widget.temperature.toString(),
                 style: const TextStyle(
                   fontSize: 64,
                   fontWeight: FontWeight.w300,
@@ -60,7 +66,7 @@ class TemperatureGauge extends StatelessWidget {
               ),
             ),
             const Align(
-              alignment: AlignmentDirectional(.33, -.1),
+              alignment: AlignmentDirectional(.45, -.2),
               child: Text(
                 '°C',
                 style: TextStyle(

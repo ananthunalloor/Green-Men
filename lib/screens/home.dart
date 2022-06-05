@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,6 +16,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+  int randomNumber = 0;
+
+  var randomNumberGenerator = () => Random().nextInt(100);
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+        const Duration(seconds: 2),
+        (Timer t) => {
+              setState(() {
+                randomNumber = randomNumberGenerator();
+              }),
+            });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -82,10 +108,10 @@ class _HomeScreen extends State<HomeScreen> {
                     decoration: const BoxDecoration(
                       color: Color(0x00FFFFFF),
                     ),
-                    child: const Align(
-                      alignment: AlignmentDirectional(0, 0),
+                    child: Align(
+                      alignment: const AlignmentDirectional(0, 0),
                       child: TemperatureGauge(
-                        temperature: 20,
+                        temperature: randomNumber,
                         percent: .3,
                       ),
                     ),
