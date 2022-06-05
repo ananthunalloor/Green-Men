@@ -84,7 +84,10 @@ class _HomeScreen extends State<HomeScreen> {
                     ),
                     child: const Align(
                       alignment: AlignmentDirectional(0, 0),
-                      child: TemperatureGauge(),
+                      child: TemperatureGauge(
+                        temperature: 20,
+                        percent: .3,
+                      ),
                     ),
                   ),
                 ),
